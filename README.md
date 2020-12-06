@@ -1,24 +1,9 @@
-# plumsail
+# Plumsail
 
-## Project setup
-```
-yarn install
-```
+Test task for Plumsail
 
-### Compiles and hot-reloads for development
+## Project start
 ```
-yarn serve
+npm i
+npm serve
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

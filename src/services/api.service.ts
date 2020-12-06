@@ -1,22 +1,20 @@
-import { API_KEY, WHETHER_BASE } from '@/config';
+class ApiService {
+  private readonly options: any;
 
-class WhetherApiService {
-  private readonly _options:any;
-
-  constructor(options:any) {
-    this._options = options;
+  constructor(options: any) {
+    this.options = options;
   }
 
-  _fetch(url:string, options:any) {
-    const fetchUrl = new URL(this._options.base + url);
-    let params = this._options.params || {};
-    let fetchOptions = { ...this._options, ...options };
+  public fetch(url: string, options: any) {
+    const fetchUrl = new URL(this.options.base + url);
+    const fetchOptions = { ...this.options, ...options };
+    let params = this.options.params || {};
 
     if (fetchOptions && fetchOptions.params) {
       params = {
         ...params,
-        ...options.params
-      }
+        ...options.params,
+      };
     }
 
     if (fetchOptions && fetchOptions.body && typeof fetchOptions.body !== 'string') {
@@ -26,7 +24,7 @@ class WhetherApiService {
     if (Object.keys(params).length) {
       fetchOptions.params = params;
 
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         fetchUrl.searchParams.set(key, fetchOptions.params[key]);
       });
     }
@@ -39,20 +37,9 @@ class WhetherApiService {
           return data;
         }
 
-        return Promise.reject({
-          status: response.status,
-          ...data
-        })
+        return Promise.reject(new Error(response.status.toString()));
       });
   }
 }
 
-export default new WhetherApiService({
-  base: WHETHER_BASE,
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  params: {
-    appId: API_KEY
-  }
-})
+export default ApiService;

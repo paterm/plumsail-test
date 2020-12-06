@@ -1,22 +1,38 @@
 import { TCity } from '@/types/CityType';
 
+const STORE_NAME = 'store';
+
 export const StoreService = {
-  getSettings() {
-    const storeData: string | null = localStorage.getItem('settings');
-    let settings: any = {};
+  get() {
+    const storeData: string | null = localStorage.getItem(STORE_NAME);
+    let store: TCity[] = [];
 
     try {
-      if (storeData) settings = JSON.parse(storeData);
+      if (storeData) store = JSON.parse(storeData);
     } catch (e) {
       console.log(e);
     }
 
-    return settings;
+    return store.sort((a, b) => a.pos - b.pos);
   },
 
-  addCity(city: TCity) {
-    const settings = this.getSettings();
+  add(city: TCity) {
+    const store = this.get();
 
-    localStorage.setItem(''JSON.stringify(city));
-  }
+    store.push(city);
+
+    localStorage.setItem(STORE_NAME, JSON.stringify(store));
+  },
+
+  remove(city: TCity) {
+    let store = this.get();
+
+    store = store.filter((item) => item.city !== city.city);
+
+    localStorage.setItem(STORE_NAME, JSON.stringify(store));
+  },
+
+  update(data: TCity[]) {
+    localStorage.setItem(STORE_NAME, JSON.stringify(data));
+  },
 };
